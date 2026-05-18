@@ -12,11 +12,10 @@
 
 ## 필요한 환경
 
-법친을 돌리려면 세 가지가 미리 깔려 있어야 해요.
+법친을 돌리려면 두 가지가 미리 깔려 있어야 해요.
 
 1. **Go 1.21 이상** — 법친 본체를 빌드하는 데 필요해요.
-2. **Git LFS** — 판례 데이터(약 254MB)가 Git LFS로 관리돼요. 저장소를 받기 *전에* 꼭 설치해 주세요. 안 그러면 데이터 파일이 깨진 채로 받아져요.
-3. **Claude CLI** 또는 **Codex CLI** 중 하나 — 실제로 답을 생성하는 AI 엔진이에요. 둘 다 있어도 좋고, 화면에서 골라 쓸 수 있어요.
+2. **Claude CLI** 또는 **Codex CLI** 중 하나 — 실제로 답을 생성하는 AI 엔진이에요. 둘 다 있어도 좋고, 화면에서 골라 쓸 수 있어요.
    - Claude CLI: <https://docs.claude.com/en/docs/claude-code>
    - Codex CLI: <https://github.com/openai/codex>
 
@@ -31,18 +30,20 @@
 터미널을 열고 아래 명령을 순서대로 실행하세요.
 
 ```bash
-# 1. Go + Git LFS 설치 (이미 있다면 건너뛰기)
-brew install go git-lfs
-git lfs install
+# 1. Go 설치 (이미 있다면 건너뛰기)
+brew install go
 
-# 2. 법친 내려받기 (LFS 활성화 후 clone 해야 데이터가 제대로 받아져요)
+# 2. 법친 내려받기
 git clone https://github.com/your-org/law-friend.git
 cd law-friend
 
-# 3. 빌드
-go build -o beopchin .
+# 3. 판례 데이터 다운로드 (약 254MB) → data/precedents.json 위치에 저장
+mkdir -p data
+curl -L -o data/precedents.json \
+  https://github.com/your-org/law-friend/releases/latest/download/precedents.json
 
-# 4. 실행
+# 4. 빌드 + 실행
+go build -o beopchin .
 ./beopchin serve
 ```
 
@@ -57,18 +58,18 @@ PowerShell을 열고 아래를 따라 하세요.
 #    https://go.dev/dl/ 에서 Windows용 MSI 인스톨러를 받아 설치하세요.
 #    설치 후 PowerShell을 새로 열어야 go 명령이 인식돼요.
 
-# 2. Git LFS 설치 (Git for Windows 최신 버전에는 보통 포함돼 있어요)
-#    https://git-lfs.com 에서 받아 설치한 뒤:
-git lfs install
-
-# 3. 법친 내려받기 (LFS 활성화 후 clone 해야 데이터가 제대로 받아져요)
+# 2. 법친 내려받기
 git clone https://github.com/your-org/law-friend.git
 cd law-friend
 
-# 4. 빌드
-go build -o beopchin.exe .
+# 3. 판례 데이터 다운로드 (약 254MB)
+New-Item -ItemType Directory -Force data | Out-Null
+Invoke-WebRequest `
+  -Uri "https://github.com/your-org/law-friend/releases/latest/download/precedents.json" `
+  -OutFile "data\precedents.json"
 
-# 5. 실행
+# 4. 빌드 + 실행
+go build -o beopchin.exe .
 .\beopchin.exe serve
 ```
 
