@@ -34,13 +34,13 @@
 brew install go
 
 # 2. 법친 내려받기
-git clone https://github.com/your-org/law-friend.git
+git clone https://github.com/grayhh/law-friend.git
 cd law-friend
 
 # 3. 판례 데이터 다운로드 (약 254MB) → data/precedents.json 위치에 저장
 mkdir -p data
 curl -L -o data/precedents.json \
-  https://github.com/your-org/law-friend/releases/latest/download/precedents.json
+  https://github.com/grayhh/law-friend/releases/latest/download/precedents.json
 
 # 4. 빌드 + 실행
 go build -o beopchin .
@@ -59,13 +59,13 @@ PowerShell을 열고 아래를 따라 하세요.
 #    설치 후 PowerShell을 새로 열어야 go 명령이 인식돼요.
 
 # 2. 법친 내려받기
-git clone https://github.com/your-org/law-friend.git
+git clone https://github.com/grayhh/law-friend.git
 cd law-friend
 
 # 3. 판례 데이터 다운로드 (약 254MB)
 New-Item -ItemType Directory -Force data | Out-Null
 Invoke-WebRequest `
-  -Uri "https://github.com/your-org/law-friend/releases/latest/download/precedents.json" `
+  -Uri "https://github.com/grayhh/law-friend/releases/latest/download/precedents.json" `
   -OutFile "data\precedents.json"
 
 # 4. 빌드 + 실행
