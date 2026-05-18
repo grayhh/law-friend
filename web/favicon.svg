@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#4a7c59" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- 기둥 -->
+  <line x1="32" y1="14" x2="32" y2="52" />
+  <!-- 받침 -->
+  <line x1="22" y1="54" x2="42" y2="54" />
+  <line x1="28" y1="52" x2="36" y2="52" />
+  <!-- 가로 빔 -->
+  <line x1="10" y1="18" x2="54" y2="18" />
+  <!-- 손잡이 -->
+  <circle cx="32" cy="14" r="2.4" fill="#4a7c59" stroke="none" />
+  <!-- 왼쪽 줄 -->
+  <line x1="14" y1="18" x2="14" y2="28" />
+  <!-- 오른쪽 줄 -->
+  <line x1="50" y1="18" x2="50" y2="28" />
+  <!-- 왼쪽 접시 (살짝 기울어진 호) -->
+  <path d="M5 28 Q14 38 23 28" />
+  <!-- 오른쪽 접시 -->
+  <path d="M41 28 Q50 38 59 28" />
+</svg>

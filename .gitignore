@@ -1,0 +1,26 @@
+# 빌드 산출물
+/beopchin
+*.test
+
+# Python venv & artifacts
+/scripts/.venv/
+/scripts/.env
+__pycache__/
+*.pyc
+
+# raw 판례 수집 데이터 (개발 머신에만 존재, git에 안 넣음)
+/data/raw/
+
+# 임베딩 산출물 (재생성 가능, 크기 큼)
+/data/embeddings/
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Claude Code
+/.claude/

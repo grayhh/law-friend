@@ -1,0 +1,14 @@
+[
+  {
+    "id": "dummy-001",
+    "case_number": "2020다12345",
+    "case_name": "임대차보증금 반환청구 (예시 데이터)",
+    "court": "대법원",
+    "decision_date": "2021-03-15",
+    "case_kind": "민사",
+    "issues": "임대차계약 종료 후 임차인이 목적물을 반환하였음에도 임대인이 정당한 사유 없이 보증금 반환을 지체한 경우 지연이자의 기산점",
+    "summary": "임대차계약이 종료되고 임차인이 임대인에게 목적물을 반환한 때부터 임대인의 보증금반환의무가 이행지체에 빠진다.",
+    "full_text": "이것은 예시 더미 판례입니다. 실제 판례 데이터는 data/precedents.json에 별도로 배포됩니다.",
+    "source_url": "https://example.com/precedents/dummy-001"
+  }
+]
