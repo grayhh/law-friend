@@ -1,0 +1,89 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: build ${{ matrix.goos }}-${{ matrix.goarch }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: darwin
+            goarch: arm64
+            artifact: beopchin-darwin-arm64
+          - goos: darwin
+            goarch: amd64
+            artifact: beopchin-darwin-amd64
+          - goos: linux
+            goarch: amd64
+            artifact: beopchin-linux-amd64
+          - goos: linux
+            goarch: arm64
+            artifact: beopchin-linux-arm64
+          - goos: windows
+            goarch: amd64
+            artifact: beopchin-windows-amd64.exe
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+          check-latest: true
+
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: '0'
+        run: |
+          go build -trimpath -ldflags="-s -w" -o "${{ matrix.artifact }}" .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
+          retention-days: 1
+
+  release:
+    name: publish release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      # 판례 데이터(precedents.json)는 리포에 없으므로 직전 릴리스에서 가져와 새 릴리스에도 첨부.
+      # 직전 릴리스가 없거나 자산이 없으면 그냥 넘어감(첫 릴리스 케이스).
+      - name: Carry over precedents.json from previous release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PREV_TAG=$(gh release list --limit 20 --json tagName,isLatest \
+            --jq '.[] | select(.isLatest==true) | .tagName' || true)
+          if [ -n "$PREV_TAG" ]; then
+            echo "이전 릴리스: $PREV_TAG — precedents.json 복사 시도"
+            gh release download "$PREV_TAG" --pattern precedents.json --dir dist || \
+              echo "이전 릴리스에 precedents.json 없음, 건너뜀"
+          else
+            echo "이전 릴리스 없음, 건너뜀"
+          fi
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          make_latest: true

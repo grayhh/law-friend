@@ -12,68 +12,65 @@
 
 ## 필요한 환경
 
-법친을 돌리려면 두 가지가 미리 깔려 있어야 해요.
-
-1. **Go 1.21 이상** — 법친 본체를 빌드하는 데 필요해요.
-2. **Claude CLI** 또는 **Codex CLI** 중 하나 — 실제로 답을 생성하는 AI 엔진이에요. 둘 다 있어도 좋고, 화면에서 골라 쓸 수 있어요.
+1. **Claude CLI** 또는 **Codex CLI** 중 하나 — 실제로 답을 생성하는 AI 엔진이에요. 둘 다 있어도 좋고, 화면에서 골라 쓸 수 있어요.
    - Claude CLI: <https://docs.claude.com/en/docs/claude-code>
    - Codex CLI: <https://github.com/openai/codex>
+2. 디스크 약 **300MB** 여유 (판례 데이터 254MB + 바이너리)
 
-법친은 사용자가 이미 로그인해 둔 CLI를 그대로 실행해서 답을 받아와요. 별도의 API 키를 법친에 넣을 필요는 없어요.
+법친은 사용자가 이미 로그인해 둔 CLI를 그대로 실행해서 답을 받아와요. 별도의 API 키를 법친에 넣을 필요는 없어요. **Go 같은 개발 도구는 안 깔아도 됩니다** — 미리 빌드된 바이너리를 받아서 바로 실행하면 끝이에요.
 
 ---
 
 ## 설치하기
 
-### 🍎 macOS
+### 🍎 macOS / 🐧 Linux
 
-터미널을 열고 아래 명령을 순서대로 실행하세요.
+터미널에 한 줄 붙여넣기:
 
 ```bash
-# 1. Go 설치 (이미 있다면 건너뛰기)
-brew install go
-
-# 2. 법친 내려받기
-git clone https://github.com/grayhh/law-friend.git
-cd law-friend
-
-# 3. 판례 데이터 다운로드 (약 254MB) → data/precedents.json 위치에 저장
-mkdir -p data
-curl -L -o data/precedents.json \
-  https://github.com/grayhh/law-friend/releases/latest/download/precedents.json
-
-# 4. 빌드 + 실행
-go build -o beopchin .
-./beopchin serve
+curl -fsSL https://raw.githubusercontent.com/grayhh/law-friend/main/install.sh | sh
 ```
 
-`brew`가 없다면 먼저 [Homebrew](https://brew.sh)부터 설치하세요.
+설치가 끝나면 안내된 명령으로 실행하세요:
+
+```bash
+~/.beopchin/beopchin serve
+```
 
 ### 🪟 Windows
 
-PowerShell을 열고 아래를 따라 하세요.
+PowerShell에 한 줄 붙여넣기:
 
 ```powershell
-# 1. Go 설치 (이미 있다면 건너뛰기)
-#    https://go.dev/dl/ 에서 Windows용 MSI 인스톨러를 받아 설치하세요.
-#    설치 후 PowerShell을 새로 열어야 go 명령이 인식돼요.
-
-# 2. 법친 내려받기
-git clone https://github.com/grayhh/law-friend.git
-cd law-friend
-
-# 3. 판례 데이터 다운로드 (약 254MB)
-New-Item -ItemType Directory -Force data | Out-Null
-Invoke-WebRequest `
-  -Uri "https://github.com/grayhh/law-friend/releases/latest/download/precedents.json" `
-  -OutFile "data\precedents.json"
-
-# 4. 빌드 + 실행
-go build -o beopchin.exe .
-.\beopchin.exe serve
+irm https://raw.githubusercontent.com/grayhh/law-friend/main/install.ps1 | iex
 ```
 
-`git`이 없다면 [Git for Windows](https://git-scm.com/download/win)를 먼저 설치하거나, GitHub에서 ZIP으로 받아 압축을 풀어도 돼요.
+설치가 끝나면:
+
+```powershell
+& "$HOME\.beopchin\beopchin.exe" serve
+```
+
+### 🛠 수동 설치 (스크립트가 싫을 때)
+
+1. [Releases 페이지](https://github.com/grayhh/law-friend/releases/latest)에서 본인 OS용 바이너리와 `precedents.json` 을 받아요.
+   - macOS Apple Silicon: `beopchin-darwin-arm64`
+   - macOS Intel: `beopchin-darwin-amd64`
+   - Windows: `beopchin-windows-amd64.exe`
+   - Linux x86_64: `beopchin-linux-amd64`
+   - Linux ARM64: `beopchin-linux-arm64`
+2. 바이너리 옆에 `data/precedents.json` 으로 판례 파일을 놓아요. 예:
+   ```
+   beopchin/
+   ├── beopchin              (또는 beopchin.exe)
+   └── data/
+       └── precedents.json
+   ```
+3. 바이너리를 실행하면 자동으로 옆 `data/` 폴더의 판례를 불러와요.
+   - macOS는 첫 실행 시 "확인되지 않은 개발자" 경고가 떠요. 터미널에서 한 번만:
+     ```bash
+     xattr -d com.apple.quarantine ./beopchin
+     ```
 
 ---
 
@@ -99,10 +96,40 @@ go build -o beopchin.exe .
 
 전부 내 컴퓨터 안에만 있어요. 외부로 나가지 않습니다.
 
-- **macOS**: `~/.beopchin/sessions.json`
+- **macOS / Linux**: `~/.beopchin/sessions.json`
 - **Windows**: `%USERPROFILE%\.beopchin\sessions.json`
 
 대화를 지우고 싶다면 이 파일을 지우면 돼요.
+
+---
+
+## 업데이트하기
+
+설치 스크립트를 다시 실행하면 최신 바이너리로 덮어써져요. 판례 데이터는 이미 받아둔 게 있으면 건너뛰니까 금방 끝납니다.
+
+```bash
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/grayhh/law-friend/main/install.sh | sh
+```
+
+```powershell
+# Windows
+irm https://raw.githubusercontent.com/grayhh/law-friend/main/install.ps1 | iex
+```
+
+---
+
+## 제거하기
+
+설치 폴더만 지우면 끝이에요.
+
+```bash
+# macOS / Linux
+rm -rf ~/.beopchin
+
+# Windows (PowerShell)
+Remove-Item -Recurse -Force "$HOME\.beopchin"
+```
 
 ---
 
@@ -110,10 +137,31 @@ go build -o beopchin.exe .
 
 | 증상 | 해결 |
 |------|------|
-| `command not found: go` | Go가 설치되지 않았거나 PATH에 없어요. 터미널을 새로 열어보세요. |
+| macOS: "확인되지 않은 개발자" 경고 | 터미널에서 `xattr -d com.apple.quarantine ~/.beopchin/beopchin` 한 번 실행 (스크립트 설치는 자동 처리). |
 | `claude/codex CLI를 찾을 수 없어요` | 해당 CLI가 설치돼 있고 `claude --version` / `codex --version` 이 동작하는지 확인하세요. |
 | 8787 포트가 이미 쓰여요 | 다른 프로그램이 사용 중이에요. 그 프로그램을 끄거나, 법친을 다시 실행하세요. |
-| 검색 결과가 이상해요 | `data/precedents.json` 파일이 있는지 확인하세요. 없다면 저장소를 다시 받아주세요. |
+| 검색 결과가 이상해요 | `~/.beopchin/data/precedents.json` 파일이 있는지 확인하세요. 없다면 설치 스크립트를 다시 실행하세요. |
+
+---
+
+## 개발자용: 소스에서 빌드
+
+법친에 기여하거나 코드를 직접 고치고 싶다면:
+
+```bash
+# Go 1.25+ 필요
+git clone https://github.com/grayhh/law-friend.git
+cd law-friend
+
+# 판례 데이터 받기
+mkdir -p data
+curl -L -o data/precedents.json \
+  https://github.com/grayhh/law-friend/releases/latest/download/precedents.json
+
+# 빌드 + 실행
+go build -o beopchin .
+./beopchin serve
+```
 
 ---
 
