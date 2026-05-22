@@ -61,27 +61,6 @@ cd scripts && source .venv/bin/activate
 python collect.py detail && python normalize.py
 ```
 
-## 사용자가 "판례 수집 계속 진행해" 같은 말을 하면
-
-→ `scripts/RESUME.md` 를 따라 진행. 핵심 명령:
-
-```bash
-cd /Users/chan/chdev/ch/beopchin/scripts
-source .venv/bin/activate
-python collect.py detail && python normalize.py
-```
-
-진행 상황은 `data/raw/prec/` 폴더의 파일 개수로 확인:
-
-```bash
-ls /Users/chan/chdev/ch/beopchin/data/raw/prec/ | wc -l
-```
-
-- 인덱스 총 14,470건 (대법원 출처, 2016~2025년 선고)
-- 이미 받은 건은 자동 skip (resumable)
-- 끝나면 `normalize.py`가 자동으로 `data/precedents.json` 갱신
-- Go 서버는 외부 파일 우선 로드라 **재빌드 없이 재시작만** 하면 새 데이터 적용
-
 ## 데이터 출처
 
 - 국가법령정보센터 Open API (law.go.kr/DRF/)
