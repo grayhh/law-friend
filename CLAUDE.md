@@ -55,10 +55,6 @@ curl -s "http://localhost:8787/api/search?q=전세+보증금&k=5" | python3 -m j
 
 # 단위 테스트
 go test ./internal/search/ -v
-
-# 판례 수집 이어받기
-cd scripts && source .venv/bin/activate
-python collect.py detail && python normalize.py
 ```
 
 ## 데이터 출처
