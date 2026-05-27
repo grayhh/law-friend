@@ -30,7 +30,7 @@ func DefaultPath() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, ".beopchin", "sessions.json"), nil
+	return filepath.Join(home, ".lawmate", "sessions.json"), nil
 }
 
 func OpenStore(path string) (*Store, error) {

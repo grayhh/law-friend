@@ -13,7 +13,7 @@
 진행률은 언제든 `data/raw/prec/` 폴더 안의 파일 개수로 확인 가능:
 
 ```bash
-ls /Users/chan/chdev/ch/beopchin/data/raw/prec/ | wc -l
+ls /Users/chan/chdev/ch/lawmate/data/raw/prec/ | wc -l
 ```
 
 ## 사전 준비 (한 번만)
@@ -21,7 +21,7 @@ ls /Users/chan/chdev/ch/beopchin/data/raw/prec/ | wc -l
 1. **API 키** — `scripts/.env`에 `LAW_GO_KR_OC=<발급키>`가 있어야 함.
 2. **Python venv** — `scripts/.venv/`에 이미 만들어져 있음. 사라졌다면:
    ```bash
-   cd /Users/chan/chdev/ch/beopchin/scripts
+   cd /Users/chan/chdev/ch/lawmate/scripts
    python3 -m venv .venv
    source .venv/bin/activate
    pip install -r requirements.txt
@@ -32,7 +32,7 @@ ls /Users/chan/chdev/ch/beopchin/data/raw/prec/ | wc -l
 남은 전부를 받고 끝나면 자동으로 `data/precedents.json`까지 갱신:
 
 ```bash
-cd /Users/chan/chdev/ch/beopchin/scripts
+cd /Users/chan/chdev/ch/lawmate/scripts
 source .venv/bin/activate
 python collect.py detail && python normalize.py
 ```
@@ -52,22 +52,22 @@ python collect.py detail --max-records 1000 && python normalize.py
 ### 백그라운드로 돌리고 싶을 때
 
 ```bash
-cd /Users/chan/chdev/ch/beopchin/scripts
+cd /Users/chan/chdev/ch/lawmate/scripts
 source .venv/bin/activate
 nohup bash -c 'python -u collect.py detail && python normalize.py' \
-  > /tmp/beopchin-collect.log 2>&1 &
-echo $! > /tmp/beopchin-collect.pid
+  > /tmp/lawmate-collect.log 2>&1 &
+echo $! > /tmp/lawmate-collect.pid
 ```
 
 진행 보기:
 ```bash
-tail -f /tmp/beopchin-collect.log
-ls /Users/chan/chdev/ch/beopchin/data/raw/prec/ | wc -l
+tail -f /tmp/lawmate-collect.log
+ls /Users/chan/chdev/ch/lawmate/data/raw/prec/ | wc -l
 ```
 
 중단:
 ```bash
-kill $(cat /tmp/beopchin-collect.pid) 2>/dev/null
+kill $(cat /tmp/lawmate-collect.pid) 2>/dev/null
 # 또는
 pkill -f "collect.py detail"
 ```
@@ -77,8 +77,8 @@ pkill -f "collect.py detail"
 1. `data/precedents.json`이 새 데이터로 갱신됨 (normalize 자동 실행됨)
 2. Go 서버는 외부 파일 우선 로드라 **재빌드 없이도** 재시작만 하면 새 데이터 사용:
    ```bash
-   cd /Users/chan/chdev/ch/beopchin
-   ./beopchin serve
+   cd /Users/chan/chdev/ch/lawmate
+   ./lawmate serve
    ```
 3. 검색이 잘 되는지 빠른 확인:
    ```bash
@@ -101,7 +101,7 @@ pkill -f "collect.py detail"
 새 판례가 추가됐거나 다른 기간을 추가하고 싶을 때:
 
 ```bash
-cd /Users/chan/chdev/ch/beopchin/scripts
+cd /Users/chan/chdev/ch/lawmate/scripts
 source .venv/bin/activate
 python collect.py index --year-from 2016 --year-to 2025
 ```

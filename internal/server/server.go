@@ -10,10 +10,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/chan/beopchin/internal/llm"
-	"github.com/chan/beopchin/internal/precedents"
-	"github.com/chan/beopchin/internal/prompt"
-	"github.com/chan/beopchin/internal/sessions"
+	"github.com/chan/lawmate/internal/llm"
+	"github.com/chan/lawmate/internal/precedents"
+	"github.com/chan/lawmate/internal/prompt"
+	"github.com/chan/lawmate/internal/sessions"
 )
 
 type Server struct {

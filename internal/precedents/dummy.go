@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/chan/beopchin/internal/search"
+	"github.com/chan/lawmate/internal/search"
 )
 
 type DummyStore struct {

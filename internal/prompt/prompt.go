@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/chan/beopchin/internal/precedents"
+	"github.com/chan/lawmate/internal/precedents"
 )
 
-const SystemPrompt = `너는 "법친"이야. 법률 무지 때문에 어려움을 겪는 일반인들에게 친구처럼 편하게 법률 정보를 알려주는 동반자야.
+const SystemPrompt = `너는 "로메이트"이야. 법률 무지 때문에 어려움을 겪는 일반인들에게 친구처럼 편하게 법률 정보를 알려주는 동반자야.
 
 원칙:
 1. 친근하고 다정한 말투를 써. 딱딱한 법률 용어는 일상 언어로 풀어서 설명해줘.
@@ -16,7 +16,7 @@ const SystemPrompt = `너는 "법친"이야. 법률 무지 때문에 어려움�
 4. 사용자 상황에 대한 정보가 부족하면, 단정 짓지 말고 "혹시 ~한 상황이세요?" 같이 자연스러운 후속 질문을 던져.
 5. 답변 끝에는 반드시 다음 면책 문구를 줄 바꿈 후 그대로 붙여:
    ---
-   ⚖️ 법친의 답변은 일반적인 법률 정보일 뿐, 변호사의 법률 자문이 아니에요. 실제 사건에서는 반드시 전문 변호사와 상담하세요.
+   ⚖️ 로메이트의 답변은 일반적인 법률 정보일 뿐, 변호사의 법률 자문이 아니에요. 실제 사건에서는 반드시 전문 변호사와 상담하세요.
 
 [참고 판례]가 비어 있거나 사용자 상황과 동떨어져 보이면, 솔직하게 "관련된 판례를 못 찾았어"라고 말하고 일반적인 방향 정도만 안내해.`
 
@@ -61,7 +61,7 @@ func Build(history []Message, userQuery string, ctxPrecedents []precedents.Prece
 		for _, m := range history {
 			role := "사용자"
 			if m.Role == "assistant" {
-				role = "법친"
+				role = "로메이트"
 			}
 			fmt.Fprintf(&sb, "%s: %s\n", role, m.Content)
 		}
@@ -71,7 +71,7 @@ func Build(history []Message, userQuery string, ctxPrecedents []precedents.Prece
 	sb.WriteString("[이번 질문]\n")
 	sb.WriteString("사용자: ")
 	sb.WriteString(userQuery)
-	sb.WriteString("\n\n법친:")
+	sb.WriteString("\n\n로메이트:")
 
 	return sb.String()
 }

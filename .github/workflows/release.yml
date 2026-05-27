@@ -18,19 +18,19 @@ jobs:
         include:
           - goos: darwin
             goarch: arm64
-            artifact: beopchin-darwin-arm64
+            artifact: lawmate-darwin-arm64
           - goos: darwin
             goarch: amd64
-            artifact: beopchin-darwin-amd64
+            artifact: lawmate-darwin-amd64
           - goos: linux
             goarch: amd64
-            artifact: beopchin-linux-amd64
+            artifact: lawmate-linux-amd64
           - goos: linux
             goarch: arm64
-            artifact: beopchin-linux-arm64
+            artifact: lawmate-linux-arm64
           - goos: windows
             goarch: amd64
-            artifact: beopchin-windows-amd64.exe
+            artifact: lawmate-windows-amd64.exe
     steps:
       - uses: actions/checkout@v4
 

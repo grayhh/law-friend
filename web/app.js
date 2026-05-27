@@ -22,7 +22,7 @@ const state = {
   activeSession: null, // currently selected sidebar session id
 };
 
-const INTRO_HTML = `안녕! 나는 <strong>법친</strong>이야 👋<br />
+const INTRO_HTML = `안녕! 나는 <strong>로메이트</strong>이야 👋<br />
 법 때문에 헷갈리거나 답답한 일이 있으면 편하게 물어봐.<br />
 어떤 상황인지 그냥 말로 풀어줘도 돼.`;
 
@@ -226,7 +226,7 @@ function appendTyping() {
   el.className = 'message assistant';
   const bubble = document.createElement('div');
   bubble.className = 'bubble typing';
-  bubble.textContent = '법친이 판례를 찾아보는 중…';
+  bubble.textContent = '로메이트가 판례를 찾아보는 중…';
   el.appendChild(bubble);
   chatEl.appendChild(el);
   scrollToBottom();

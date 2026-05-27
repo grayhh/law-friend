@@ -1,17 +1,17 @@
 #!/usr/bin/env sh
-# 법친 (Beopchin) 설치 스크립트 — macOS / Linux
+# 로메이트 (Lawmate) 설치 스크립트 — macOS / Linux
 #
 # 사용:
 #   curl -fsSL https://raw.githubusercontent.com/grayhh/law-friend/main/install.sh | sh
 #
-# 설치 위치: ~/.beopchin/
-#   - ~/.beopchin/beopchin            (실행 바이너리)
-#   - ~/.beopchin/data/precedents.json (판례 데이터, 약 254MB)
+# 설치 위치: ~/.lawmate/
+#   - ~/.lawmate/lawmate            (실행 바이너리)
+#   - ~/.lawmate/data/precedents.json (판례 데이터, 약 254MB)
 
 set -eu
 
 REPO="grayhh/law-friend"
-INSTALL_DIR="${BEOPCHIN_HOME:-$HOME/.beopchin}"
+INSTALL_DIR="${LAWMATE_HOME:-$HOME/.lawmate}"
 DATA_DIR="$INSTALL_DIR/data"
 BASE_URL="https://github.com/${REPO}/releases/latest/download"
 
@@ -34,17 +34,17 @@ case "$OS" in
     ;;
 esac
 
-BINARY="beopchin-${OS}-${ARCH}"
+BINARY="lawmate-${OS}-${ARCH}"
 
 mkdir -p "$DATA_DIR"
 
-echo "▶ 법친 바이너리 내려받는 중... ($BINARY)"
-curl -fL --progress-bar -o "$INSTALL_DIR/beopchin" "$BASE_URL/$BINARY"
-chmod +x "$INSTALL_DIR/beopchin"
+echo "▶ 로메이트 바이너리 내려받는 중... ($BINARY)"
+curl -fL --progress-bar -o "$INSTALL_DIR/lawmate" "$BASE_URL/$BINARY"
+chmod +x "$INSTALL_DIR/lawmate"
 
 if [ "$OS" = "darwin" ]; then
   # Gatekeeper 격리 속성 제거 (없으면 조용히 넘어감)
-  xattr -d com.apple.quarantine "$INSTALL_DIR/beopchin" 2>/dev/null || true
+  xattr -d com.apple.quarantine "$INSTALL_DIR/lawmate" 2>/dev/null || true
 fi
 
 if [ -f "$DATA_DIR/precedents.json" ]; then
@@ -60,12 +60,12 @@ cat <<EOF
 ✅ 설치 완료!
 
 실행:
-  $INSTALL_DIR/beopchin serve
+  $INSTALL_DIR/lawmate serve
 
 매번 경로 치기 귀찮으면 PATH에 추가하세요:
-  echo 'export PATH="\$HOME/.beopchin:\$PATH"' >> ~/.zshrc   # zsh
-  echo 'export PATH="\$HOME/.beopchin:\$PATH"' >> ~/.bashrc  # bash
-  # 그 후 'beopchin serve' 로 바로 실행
+  echo 'export PATH="\$HOME/.lawmate:\$PATH"' >> ~/.zshrc   # zsh
+  echo 'export PATH="\$HOME/.lawmate:\$PATH"' >> ~/.bashrc  # bash
+  # 그 후 'lawmate serve' 로 바로 실행
 
 서버가 뜨면 브라우저에서 http://localhost:8787 을 열어주세요.
 EOF

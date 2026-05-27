@@ -1,4 +1,4 @@
-# 법친 (Beopchin)
+# 로메이트 (Lawmate)
 
 친구처럼 편한 한국어 AI 법률 정보 도우미. 사용자가 자기 로컬에서 실행하는 프로그램(SaaS 아님).
 
@@ -16,14 +16,14 @@
 - **언어**: Go (사용자 앱), Python (데이터 파이프라인)
 - **벡터 DB / 임베딩**: 아직 없음. BM25 lexical search 사용. semantic은 Phase B
 - **LLM 호출**: 사용자가 UI에서 Claude/Codex 선택 → Go가 해당 CLI 실행
-- **세션 저장**: `~/.beopchin/sessions.json` (서버 측 atomic write)
+- **세션 저장**: `~/.lawmate/sessions.json` (서버 측 atomic write)
 
 ## 디렉터리
 
 ```
-beopchin/
+lawmate/
 ├── main.go                      엔트리포인트, serve 명령
-├── beopchin                     빌드된 바이너리
+├── lawmate                     빌드된 바이너리
 ├── internal/
 │   ├── precedents/              Precedent 타입 + Store 인터페이스 + DummyStore (BM25 백엔드)
 │   ├── search/                  BM25 lexical search (한글 토큰화 포함)
@@ -48,7 +48,7 @@ beopchin/
 
 ```bash
 # 빌드 + 실행
-go build -o beopchin . && ./beopchin serve
+go build -o lawmate . && ./lawmate serve
 
 # BM25 검색 미리보기 (LLM 없이)
 curl -s "http://localhost:8787/api/search?q=전세+보증금&k=5" | python3 -m json.tool

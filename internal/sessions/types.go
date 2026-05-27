@@ -3,7 +3,7 @@ package sessions
 import (
 	"time"
 
-	"github.com/chan/beopchin/internal/precedents"
+	"github.com/chan/lawmate/internal/precedents"
 )
 
 type Message struct {

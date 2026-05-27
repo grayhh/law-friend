@@ -12,9 +12,9 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/chan/beopchin/internal/precedents"
-	"github.com/chan/beopchin/internal/server"
-	"github.com/chan/beopchin/internal/sessions"
+	"github.com/chan/lawmate/internal/precedents"
+	"github.com/chan/lawmate/internal/server"
+	"github.com/chan/lawmate/internal/sessions"
 )
 
 //go:embed web/*
@@ -42,10 +42,10 @@ func main() {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, `법친 (beopchin) — 친구처럼 편한 법률 친구
+	fmt.Fprintln(os.Stderr, `로메이트 (lawmate) — 친구처럼 편한 법률 친구
 
 Usage:
-  beopchin serve [flags]   웹 UI를 띄워서 법친과 대화
+  lawmate serve [flags]   웹 UI를 띄워서 로메이트와 대화
 
 Flags for 'serve':
   -addr string    서버 주소 (default ":8787")
@@ -86,7 +86,7 @@ func serveCmd(args []string) {
 	}
 
 	url := fmt.Sprintf("http://localhost%s", *addr)
-	log.Printf("법친이 준비됐어요! → %s", url)
+	log.Printf("로메이트가 준비됐어요! → %s", url)
 	if !*noOpen {
 		go openBrowser(url)
 	}

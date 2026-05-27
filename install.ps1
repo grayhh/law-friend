@@ -1,16 +1,16 @@
-# 법친 (Beopchin) 설치 스크립트 — Windows (PowerShell)
+# 로메이트 (Lawmate) 설치 스크립트 — Windows (PowerShell)
 #
 # 사용:
 #   irm https://raw.githubusercontent.com/grayhh/law-friend/main/install.ps1 | iex
 #
-# 설치 위치: %USERPROFILE%\.beopchin\
-#   - %USERPROFILE%\.beopchin\beopchin.exe          (실행 바이너리)
-#   - %USERPROFILE%\.beopchin\data\precedents.json  (판례 데이터, 약 254MB)
+# 설치 위치: %USERPROFILE%\.lawmate\
+#   - %USERPROFILE%\.lawmate\lawmate.exe          (실행 바이너리)
+#   - %USERPROFILE%\.lawmate\data\precedents.json  (판례 데이터, 약 254MB)
 
 $ErrorActionPreference = 'Stop'
 
 $Repo       = 'grayhh/law-friend'
-$InstallDir = if ($env:BEOPCHIN_HOME) { $env:BEOPCHIN_HOME } else { Join-Path $HOME '.beopchin' }
+$InstallDir = if ($env:LAWMATE_HOME) { $env:LAWMATE_HOME } else { Join-Path $HOME '.lawmate' }
 $DataDir    = Join-Path $InstallDir 'data'
 $BaseUrl    = "https://github.com/$Repo/releases/latest/download"
 
@@ -31,12 +31,12 @@ if ($arch -eq 'arm64') {
     $arch = 'amd64'
 }
 
-$binary = "beopchin-windows-$arch.exe"
+$binary = "lawmate-windows-$arch.exe"
 
 New-Item -ItemType Directory -Force -Path $DataDir | Out-Null
 
-$exePath = Join-Path $InstallDir 'beopchin.exe'
-Write-Host "▶ 법친 바이너리 내려받는 중... ($binary)"
+$exePath = Join-Path $InstallDir 'lawmate.exe'
+Write-Host "▶ 로메이트 바이너리 내려받는 중... ($binary)"
 Invoke-WebRequest -Uri "$BaseUrl/$binary" -OutFile $exePath
 
 $dataPath = Join-Path $DataDir 'precedents.json'
@@ -56,6 +56,6 @@ Write-Host "  $exePath serve"
 Write-Host ""
 Write-Host "매번 경로 치기 귀찮으면 PATH에 추가하세요:"
 Write-Host "  [Environment]::SetEnvironmentVariable('Path', `$env:Path + ';$InstallDir', 'User')"
-Write-Host "  # PowerShell 새로 연 뒤 'beopchin serve' 로 실행"
+Write-Host "  # PowerShell 새로 연 뒤 'lawmate serve' 로 실행"
 Write-Host ""
 Write-Host "서버가 뜨면 브라우저에서 http://localhost:8787 을 열어주세요."
